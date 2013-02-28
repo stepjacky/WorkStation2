@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:ns1="*"
+			   xmlns:worker="worker.*"
+			   width="1090" height="1094" minWidth="955" minHeight="600"
+			   creationComplete="application1_creationCompleteHandler(event)"
+			   keyUp="application1_keyUpHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.events.TextOperationEvent;
+			protected function wnum_changeHandler(event:Event):void
+			{
+				var num:NumericStepper = event.currentTarget as NumericStepper;
+				if(this.currentWorker!=null)
+			   this.currentWorker.workCount =  num.value;
+				
+			}
+			
+			protected function wtime_changeHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				var num:NumericStepper = event.currentTarget as NumericStepper;
+				if(this.currentWorker!=null)
+					this.currentWorker.workTime =  num.value;
+			}
+			
+			protected function bcd_changeHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				var num:NumericStepper = event.currentTarget as NumericStepper;
+				if(this.currentWorker!=null)
+					this.currentWorker.batchCount =  num.value;
+			}
+			
+			protected function wname_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				var tname:TextInput = event.currentTarget as TextInput;
+				if(this.currentWorker!=null)
+					this.currentWorker.workName = tname.text;
+			}
+			
+			protected function underid_changeHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				var num:NumericStepper = event.currentTarget as NumericStepper;
+				if(this.currentWorker!=null)
+					this.currentWorker.underway = num.value;
+			}
+			
+			protected function totalid_changeHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				var num:NumericStepper = event.currentTarget as NumericStepper;
+				if(this.currentWorker!=null)
+					this.currentWorker.barTotal = num.value;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Script source="workstation.as"></fx:Script>
+	
+	<fx:Declarations>
+		<s:RadioButtonGroup id="radiogroup1"/>
+		<s:RadioButtonGroup id="radiogroup"/>
+		<s:RadioButtonGroup id="radiogroup2"/>
+		<s:RadioButtonGroup id="radiogroup3"/>
+		<s:RadioButtonGroup id="radiogroup4"/>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:Panel id="cPanel" x="11" y="181" width="1067" height="902" backgroundAlpha="0.0"
+			 borderColor="#128FC3" fontWeight="bold" leadingModel="romanUp" textAlign="center"
+			 title="庆华公司流水线作业虚拟演示平台2012">		
+	</s:Panel>
+	
+	<s:BorderContainer x="12" y="49" width="1065" height="79" backgroundColor="#9DC8DE"
+					   borderColor="#05448A" borderStyle="solid" id="ctrBar">
+		<s:HGroup id="ictrl" x="5" y="10" width="513" height="57" focusColor="#C5700C" gap="1"
+				  rollOverColor="#71B8E0" verticalAlign="middle">
+			<s:Button y="10" width="69" height="37" label="添加工序" click="button1_clickHandler(event)"/>
+			<s:VGroup y="8" width="57" height="42" gap="2">
+				<s:RadioButton label="有设备" click="radiobutton3_clickHandler(event)"
+							   groupName="radiogroup3" value="true"/>
+				<s:RadioButton label="无设备" click="radiobutton3_clickHandler(event)"
+							   groupName="radiogroup3" value="false"/>
+			</s:VGroup>
+			<s:Button y="10" width="70" height="37" label="添加通道" click="button2_clickHandler(event)"/>
+			<s:TileGroup y="6" width="95" height="46">
+				<s:RadioButton label="横向" click="radiobutton1_clickHandler(event)" groupName="radiogroup1"
+							   value="track-rl"/>
+				<s:RadioButton label="竖向" click="radiobutton1_clickHandler(event)" groupName="radiogroup1"
+							   value="track-du" />
+				<s:RadioButton label="正斜" value="track-ld-ru"   click="radiobutton1_clickHandler(event)" groupName="radiogroup1"/>
+				<s:RadioButton label="反斜" value="track-rd-lu"   click="radiobutton1_clickHandler(event)" groupName="radiogroup1"/>
+			</s:TileGroup>
+			<s:VGroup y="5" width="48" height="48" gap="0">
+				<s:ToggleButton width="44" height="24" label="通道"
+								click="togglebutton2_clickHandler(event)" cornerRadius="0"/>
+				<s:ToggleButton width="44" height="24" label="反向"
+								click="togglebutton3_clickHandler(event)" cornerRadius="0"/>
+			</s:VGroup>
+			
+			<s:Button width="46" height="37" label="关联" click="button4_clickHandler(event)"/>
+			
+			<s:Button width="44" height="37" label="删除" click="button3_clickHandler(event)"/>
+			<s:VGroup y="8" width="71" height="42" gap="2">
+				<s:HSlider width="66" change="hslider1_changeHandler(event)"/>
+				<s:CheckBox id="mischk" label="减少" toolTip="倾斜通道长度不支持调整"/>
+			</s:VGroup>
+			
+		</s:HGroup>
+		<s:Button x="927" y="41" width="71" height="30" label="演示" 
+				  chromeColor="#E6D410"
+				  click="button5_clickHandler(event)" 
+				  color="#FB0F09" fontLookup="auto"
+				  fontSize="15" fontStyle="normal"
+				  fontWeight="bold" iconPlacement="left"/>
+		
+		<s:NumericStepper id="wtime" x="550" y="12" width="46" height="23"
+						  change="wtime_changeHandler(event)" maximum="200" minimum="1" value="1"/>
+		
+		<s:NumericStepper id="wnum" x="621" y="13" width="46" height="23"
+						  change="wnum_changeHandler(event)" maximum="200" minimum="1" value="1"/>
+		
+		<s:TextInput id="wname" x="550" y="44" width="113" changing="wname_changingHandler(event)"/>
+		
+		<s:Label x="525" y="19" height="14" text="时间"/>
+		
+		<s:Label x="524" y="52" text="名称"/>
+		
+		<s:Label x="596" y="20" height="15" text="人数"/>
+		
+		<s:Label x="670" y="21" height="17" text="初制数"/>
+		
+		<s:Label x="669" y="51" text="货位量"/>
+		
+		<s:NumericStepper id="underid" x="706" y="14" width="46" height="23"
+						  change="underid_changeHandler(event)" maximum="500" minimum="1"
+						  value="100"/>
+		<s:NumericStepper id="totalid" x="706" y="43" width="46" height="23"
+						  change="totalid_changeHandler(event)" maximum="500" minimum="1"
+						  value="500"/>
+		
+		<s:CheckBox id="bid" 
+					x="760" y="47" 
+					label="批" toolTip="是否批量出产"/>
+		
+		<s:NumericStepper id="finterval" 
+						  x="879" y="43" 
+						  width="41" minimum="1"/>
+		
+		<s:Button x="852" y="12" 
+				  width="68" height="24" 
+				  label="设置多工"
+				  click="button7_clickHandler(event)"/>
+		
+		<s:Label x="852" y="49" 
+				 height="19" 
+				 text="时间" toolTip="工时的倍数"/>
+		
+		<s:Button x="928" y="12" 
+				  width="68" height="24" 
+				  label="重选"
+				  click="button8_clickHandler(event)"/>
+		<s:NumericStepper id="bcd" x="798" y="43" width="46" change="bcd_changeHandler(event)"
+						  maximum="500" minimum="1" value="5"/>
+		<s:Button x="760" y="12" width="84" height="27" label="保存"
+				  click="button6_clickHandler(event)"/>
+		<s:Button x="1002" y="31" width="60" height="20" label="保存"
+				  click="button9_clickHandler(event)"/>
+		<s:Button x="1002" y="50" width="60" height="20" label="加载"
+				  click="button10_clickHandler(event)"/>
+		<s:Button x="1002" y="12" width="60" height="20" label="清空"
+				  click="button11_clickHandler(event)"/>
+	</s:BorderContainer>
+	<s:List id="sysmsg" x="11" y="130" width="1067" height="47">
+		<s:layout>
+			<s:VerticalLayout id="sysmsgLayout"/>
+		</s:layout>
+	</s:List>	
+	<s:Image x="12" y="4" width="1065" height="43" source="assets/header.fw.png"/>
+</s:Application>
